@@ -56,12 +56,23 @@ public class WebViewPlugin extends CordovaPlugin {
      * @return True if the action was valid, false if not.
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("show") && args.length() > 0) {
+        if (action.equals("loadApp") && args.length() > 0) {
             final String appDomain = args.getString(0);
             final String appKey = args.getString(1);
             Boolean shouldShowLoading = false;
             if (!"".equals(appDomain) && !"".equals(appKey)) {
-                showWebView(appDomain, appKey);
+                loadApp(appDomain, appKey);
+                JSONObject r = new JSONObject();
+                r.put("responseCode", "ok");
+                callbackContext.success(r);
+            } else {
+                callbackContext.error("Empty Parameter url");
+            }
+        } else if (action.equals("show") && args.length() > 0) {
+            final String url = args.getString(0);
+            Boolean showLoading = args.getBoolean(1);
+            if (!"".equals(url)) {
+                showWebView(url, showLoading);
                 JSONObject r = new JSONObject();
                 r.put("responseCode", "ok");
                 callbackContext.success(r);
@@ -138,12 +149,24 @@ public class WebViewPlugin extends CordovaPlugin {
         return true;
     }
 
-    private void showWebView(final String appDomain, final String appKey) {
+    private void loadApp(final String appDomain, final String appKey) {
         SystemWebViewClient.isPreview = true;
         SystemWebViewClient.appDomain = appDomain;
         SystemWebViewClient.appKey = appKey;
 
         Intent intent = new Intent(this.cordova.getActivity().getApplicationContext(), WebViewActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.cordova.getActivity().getApplicationContext().startActivity(intent);
+    }
+
+    private void showWebView(final String url, final Boolean showLoading) {
+        SystemWebViewClient.isPreview = false;
+        SystemWebViewClient.appDomain = "";
+        SystemWebViewClient.appKey = "";
+
+        Intent intent = new Intent(this.cordova.getActivity().getApplicationContext(), WebViewActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("showLoading", showLoading);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.cordova.getActivity().getApplicationContext().startActivity(intent);
     }

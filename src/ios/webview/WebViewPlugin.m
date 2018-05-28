@@ -118,7 +118,7 @@
     }
 }
 
-- (void)show:(CDVInvokedUrlCommand*)command {
+- (void)loadApp:(CDVInvokedUrlCommand*)command {
 
     isPreview = true;
     appDomain = (NSString*)[command.arguments objectAtIndex:0];
@@ -126,6 +126,31 @@
 
     NSLog(@"appDomain %@", appDomain);
     NSLog(@"appKey %@", appKey);
+
+    [self.commandDelegate runInBackground:^{
+        @try {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                webViewController = [[WebViewController alloc] init];
+                webViewController.delegate = self;
+                [self.viewController presentViewController:webViewController animated:NO completion:nil];
+            });
+
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+        @catch (NSException *exception) {
+            NSString* reason=[exception reason];
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: reason];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+    }];
+}
+
+- (void)show:(CDVInvokedUrlCommand*)command {
+
+    isPreview = false;
+    appDomain = @"";
+    appKey = @"";
 
     [self.commandDelegate runInBackground:^{
         @try {

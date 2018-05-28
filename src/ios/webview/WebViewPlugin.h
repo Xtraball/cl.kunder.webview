@@ -43,6 +43,7 @@ under the License.
 - (void)subscribeResumeCallback:(CDVInvokedUrlCommand*)command;
 - (void)subscribePauseCallback:(CDVInvokedUrlCommand*)command;
 - (void)subscribeUrlCallback:(CDVInvokedUrlCommand*)command;
+- (void)loadApp:(CDVInvokedUrlCommand*)command;
 - (void)show:(CDVInvokedUrlCommand*)command;
 - (void)load:(CDVInvokedUrlCommand*)command;
 - (void)reload:(CDVInvokedUrlCommand*)command;
