@@ -21,12 +21,12 @@
 
     <!-- android -->
     <platform name="android">
-        <config-file target="app/src/main/res/xml/config.xml" parent="/*">
+        <config-file target="config.xml" parent="/*">
             <feature name="WebViewPlugin">
                 <param name="android-package" value="com.webview.WebViewPlugin"/>
             </feature>
         </config-file>
-        <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest/application">
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
                       android:label="@string/activity_name"
                       android:launchMode="standard"
