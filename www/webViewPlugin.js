@@ -2,12 +2,12 @@
 'use strict';
 
 module.exports = (function () {
-    var _loadApp = function (domain, appKey, successCallback, errorCallback, showLoading) {
-        cordova.exec(successCallback, errorCallback, 'WebViewPlugin', 'loadApp', [domain, appKey, (typeof showLoading !== 'undefined')]);
+    var _loadApp = function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, 'WebViewPlugin', 'loadApp', []);
     };
 
-    var _show = function (domain, appKey, successCallback, errorCallback, showLoading) {
-        cordova.exec(successCallback, errorCallback, 'WebViewPlugin', 'show', [domain, appKey, (typeof showLoading !== 'undefined')]);
+    var _show = function (url, successCallback, errorCallback, showLoading) {
+        cordova.exec(successCallback, errorCallback, 'WebViewPlugin', 'show', [url, (typeof showLoading !== 'undefined')]);
     };
 
     var _reload = function () {
