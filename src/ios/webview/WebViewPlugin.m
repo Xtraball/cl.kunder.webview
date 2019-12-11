@@ -123,6 +123,7 @@
         @try {
             dispatch_async(dispatch_get_main_queue(), ^{
                 webViewController = [[WebViewController alloc] init];
+                webViewController.modalPresentationStyle = .fullScreen;
                 webViewController.delegate = self;
                 [self.viewController presentViewController:webViewController animated:NO completion:nil];
             });
@@ -143,6 +144,7 @@
         @try {
             dispatch_async(dispatch_get_main_queue(), ^{
                 webViewController = [[WebViewController alloc] init];
+                webViewController.modalPresentationStyle = .fullScreen;
                 webViewController.delegate = self;
                 [self.viewController presentViewController:webViewController animated:NO completion:nil];
             });
